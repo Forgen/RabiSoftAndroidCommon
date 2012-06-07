@@ -62,7 +62,8 @@ public class Common {
 	public static final String m_keyColumn_SensorWakeLock = "sensor_wakelock";
 	public static final String m_keyColumn_Connection = "connection";
 	
-	static final String m_pathContent = "content://RabiSoft.CommonSettings.SettingsProvider";
+	static final String m_pathContentCommon = "content://RabiSoft.CommonSettings.SettingsProvider";
+	static final String m_pathContentNetwork = "content://RabiSoft.NetworkManager.SettingsProvider";
 	
 	public static final String m_pathLocationProvider = "/LocationProvider";
 	public static final String m_pathSensorSleep = "/SensorSleep";
@@ -95,7 +96,7 @@ public class Common {
 
 		{
 			ContentResolver resolver = context.getContentResolver();
-			String path = m_pathContent + m_pathLocationProvider;
+			String path = m_pathContentCommon + m_pathLocationProvider;
 			Uri uri = Uri.parse(path);
 			Cursor cursor = resolver.query(uri, null, null, null, null);
 			if (cursor != null) {
@@ -125,7 +126,7 @@ public class Common {
 
 		{
 			ContentResolver resolver = context.getContentResolver();
-			String path = m_pathContent + m_pathSensorSleep;
+			String path = m_pathContentCommon + m_pathSensorSleep;
 			Uri uri = Uri.parse(path);
 			Cursor cursor = resolver.query(uri, null, null, null, null);
 			if (cursor != null) {
@@ -147,7 +148,7 @@ public class Common {
 
 		{
 			ContentResolver resolver = context.getContentResolver();
-			String path = m_pathContent + m_pathSensorWakeLock;
+			String path = m_pathContentCommon + m_pathSensorWakeLock;
 			Uri uri = Uri.parse(path);
 			Cursor cursor = resolver.query(uri, null, null, null, null);
 			if (cursor != null) {
@@ -178,7 +179,7 @@ public class Common {
 
 	public static Connection getDefaultConnection(Context context) {
 
-		String path = m_pathContent + m_pathConnectionDefault;
+		String path = m_pathContentNetwork + m_pathConnectionDefault;
 		Connection connection = getConnection(context, path);
 		return connection;
 
@@ -186,7 +187,7 @@ public class Common {
 	
 	public static Connection getMobileConnection(Context context) {
 
-		String path = m_pathContent + m_pathConnectionMobile;
+		String path = m_pathContentNetwork + m_pathConnectionMobile;
 		Connection connection = getConnection(context, path);
 		return connection;
 
@@ -194,7 +195,7 @@ public class Common {
 
 	public static Connection getBluetoothConnection(Context context) {
 
-		String path = m_pathContent + m_pathConnectionBluetooth;
+		String path = m_pathContentNetwork + m_pathConnectionBluetooth;
 		Connection connection = getConnection(context, path);
 		return connection;
 
@@ -202,7 +203,7 @@ public class Common {
 
 	public static Connection getWifiConnection(Context context) {
 
-		String path = m_pathContent + m_pathConnectionWifi;
+		String path = m_pathContentNetwork + m_pathConnectionWifi;
 		Connection connection = getConnection(context, path);
 		return connection;
 
