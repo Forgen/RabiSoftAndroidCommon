@@ -1,6 +1,7 @@
 package RabiSoft.android;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -56,14 +57,17 @@ public class Common {
 	public static final String m_actionUpdatedConnectionBluetooth = "RabiSoft.CommonSettings.intent.action.UPDATED_CONNECTION_BLUETOOTH";
 	public static final String m_actionUpdatedConnectionMobile = "RabiSoft.CommonSettings.intent.action.UPDATED_CONNECTION_MOBILE";
 	public static final String m_actionUpdatedNetwork = "RabiSoft.CommonSettings.intent.action.UPDATED_NETWORK";
-
+	public static final String m_actionBootCompeted = "RabiSoft.BootCompletedManager.intent.action.BOOT_COMPLETED";
+	
 	public static final String m_keyColumn_Provider = "provider";
 	public static final String m_keyColumn_SensorSleep = "sensor_sleep";
 	public static final String m_keyColumn_SensorWakeLock = "sensor_wakelock";
 	public static final String m_keyColumn_Connection = "connection";
+	public static final String m_keyColumn_Package = "package";
 	
 	static final String m_pathContentCommon = "content://RabiSoft.CommonSettings.SettingsProvider";
 	static final String m_pathContentNetwork = "content://RabiSoft.NetworkManager.SettingsProvider";
+	static final String m_pathContentBoot = "content://RabiSoft.BootCompletedManager.SettingsProvider";
 	
 	public static final String m_pathLocationProvider = "/LocationProvider";
 	public static final String m_pathSensorSleep = "/SensorSleep";
@@ -72,6 +76,7 @@ public class Common {
 	public static final String m_pathConnectionMobile = "/ConnectionMobile";
 	public static final String m_pathConnectionWifi = "/ConnectionWifi";
 	public static final String m_pathConnectionBluetooth = "/ConnectionBluetooth";
+	public static final String m_pathPackages = "/Packages";
 
 	public static boolean isDebugAble(Context ctx) {
 		PackageManager manager = ctx.getPackageManager();
@@ -230,4 +235,32 @@ public class Common {
 
 	}
 
+	public static void registerBootPackage(Context context) {
+		ContentResolver resolver = context.getContentResolver();
+		String path = m_pathContentBoot + m_pathPackages;
+		Uri uri = Uri.parse(path);
+		ContentValues values = new ContentValues();
+		String namePackage = context.getPackageName();
+		values.put(m_keyColumn_Package, namePackage);
+		try {
+			resolver.insert(uri, values);
+		} catch (IllegalArgumentException e) {
+			// do nothing.
+		}
+	}
+
+	public static void unregisterBootPackage(Context context) {
+		ContentResolver resolver = context.getContentResolver();
+		String path = m_pathContentBoot + m_pathPackages;
+		Uri uri = Uri.parse(path);
+		String where = m_keyColumn_Package + "=?";
+		String namePackage = context.getPackageName();
+		String[] args = { namePackage };
+		try {
+			resolver.delete(uri, where, args);
+		} catch (IllegalArgumentException e) {
+			// do nothing.
+		}
+	}
+	
 }
