@@ -8,6 +8,7 @@ interface ConnectionBinder {
 
 	void requestConnect(ConnectionListener listener);
 	void requestEnable(RadioStateListener listener);
+	void requestApEnable(RadioStateListener listener);
 	void putDisConnectListener(DisConnectionListener listener);
 
 }
