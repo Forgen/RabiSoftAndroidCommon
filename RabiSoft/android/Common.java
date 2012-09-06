@@ -1,14 +1,19 @@
 package RabiSoft.android;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class Common {
 
@@ -78,23 +83,51 @@ public class Common {
 	public static final String m_pathConnectionBluetooth = "/ConnectionBluetooth";
 	public static final String m_pathPackages = "/Packages";
 
-	public static boolean isDebugAble(Context ctx) {
-		PackageManager manager = ctx.getPackageManager();
-		ApplicationInfo appInfo = null;
+	private static Boolean m_bDebugAble = null;
+	
+	public static boolean isDebugAble(Context context) {
+		
+		if( m_bDebugAble == null ) {
 
-		try {
-			appInfo = manager.getApplicationInfo(ctx.getPackageName(), 0);
-		} catch (Exception e) {
-			return false;
-		}
-
-		if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) == ApplicationInfo.FLAG_DEBUGGABLE) {
-			return true;
-		}
-
-		return false;
+			ApplicationInfo info;
+	
+			{
+				PackageManager manager = context.getPackageManager();
+				String namePackage = context.getPackageName();
+				try {
+					info = manager.getApplicationInfo(namePackage, 0);
+				} catch (NameNotFoundException e) {
+					throw new RuntimeException();
+				}
+			}
+			
+			int flagDebug = info.flags & ApplicationInfo.FLAG_DEBUGGABLE;
+			m_bDebugAble = ( flagDebug != 0 );
+		}		
+		
+		return m_bDebugAble;
 	}
 
+	private static Boolean m_bTablet = null;
+	
+    public static boolean isTablet(Activity activity) {
+    	
+    	if( m_bTablet == null ) {
+	    	DisplayMetrics metrics = new DisplayMetrics();
+	    	{
+		    	WindowManager manager = activity.getWindowManager();
+		    	Display display = manager.getDefaultDisplay();
+		    	display.getMetrics(metrics);
+	    	}
+	    	float height = metrics.heightPixels / metrics.density;
+	    	float width = metrics.widthPixels / metrics.density;
+	    	float smallest_width = Math.min(height, width);
+	    	m_bTablet = ( 600.0f <= smallest_width );
+    	}
+    	
+    	return m_bTablet;
+    }
+	
 	public static String getLocationProvider(Context context) {
 
 		String provider = null;
