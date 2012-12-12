@@ -1,5 +1,6 @@
 package RabiSoft.android;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -10,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build.VERSION;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -108,26 +110,61 @@ public class Common {
 		return m_bDebugAble;
 	}
 
+	static class Tablet {
+		
+		@SuppressLint("NewApi")
+		static class Lv14_ {
+			static void getMetrics(Display display, DisplayMetrics metrics) {
+		    	display.getRealMetrics(metrics);
+			}
+		}
+
+		static class Lv3_10 {
+			static void getMetrics(Display display, DisplayMetrics metrics) {
+		    	display.getMetrics(metrics);
+			}
+		}
+
+	}
+	
 	private static Boolean m_bTablet = null;
 	
     public static boolean isTablet(Activity activity) {
     	
     	if( m_bTablet == null ) {
-	    	DisplayMetrics metrics = new DisplayMetrics();
-	    	{
-		    	WindowManager manager = activity.getWindowManager();
-		    	Display display = manager.getDefaultDisplay();
-		    	display.getMetrics(metrics);
-	    	}
-	    	float height = metrics.heightPixels / metrics.density;
-	    	float width = metrics.widthPixels / metrics.density;
-	    	float smallest_width = Math.min(height, width);
-	    	m_bTablet = ( 600.0f <= smallest_width );
+	    	m_bTablet = isTabletSub(activity);
     	}
     	
     	return m_bTablet;
+    	
     }
-	
+
+    private static boolean isTabletSub(Activity activity) {
+    	
+    	DisplayMetrics metrics = new DisplayMetrics();
+    	{
+	    	WindowManager manager = activity.getWindowManager();
+	    	Display display = manager.getDefaultDisplay();
+	    	{
+	    		int lv = Integer.valueOf(VERSION.SDK);
+	    		if( 14 <= lv ) {
+			    	Tablet.Lv14_.getMetrics(display, metrics);
+	    		} else if( 11 <= lv ) {
+	    			return true;
+	    		} else {
+			    	Tablet.Lv3_10.getMetrics(display, metrics);
+	    		}
+	    	}
+    	}
+    	float height = metrics.heightPixels / metrics.density;
+    	float width = metrics.widthPixels / metrics.density;
+    	float smallest_width = Math.min(height, width);
+    	
+    	boolean b = ( 600.0f <= smallest_width );
+    	return b;
+    	
+    }
+
 	public static String getLocationProvider(Context context) {
 
 		String provider = null;
