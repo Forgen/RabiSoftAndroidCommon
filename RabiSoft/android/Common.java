@@ -10,6 +10,15 @@ import android.os.PowerManager;
 
 public class Common {
 
+	public static final String m_actionPickReceiveIntent = "RabiSoft.intent.action.PICK_RECEIVE_INTENT";
+	public static final String m_actionPickSendIntent = "RabiSoft.intent.action.PICK_SEND_INTENT";
+	
+	public static final String m_typeBroadcastIntent = "intent/broadcast";
+	public static final String m_typeActivityIntent = "intent/activity";
+
+	public static final String m_keyExtra_ExtraName = "extraName";
+	public static final String m_keyExtra_ExtraValue = "extraValue";
+	
 	public enum Network {
 
 		Default(ConnectionService.m_actionDefaultService),
