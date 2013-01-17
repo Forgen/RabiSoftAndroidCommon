@@ -253,5 +253,9 @@ public class Common {
 			// do nothing.
 		}
 	}
-	
+
+	public static final String m_actionPickPackage = "RabiSoft.intent.action.PICK_PACKAGE";
+
+	public static final String m_keyExtra_Package = "package";
+
 }
