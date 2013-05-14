@@ -14,6 +14,7 @@ public class Common {
 	
 	public static final String m_typeBroadcastIntent = "intent/broadcast";
 	public static final String m_typeActivityIntent = "intent/activity";
+	public static final String m_typeServiceIntent = "intent/service";
 
 	public static final String m_keyExtra_ExtraName = "extraName";
 	public static final String m_keyExtra_ExtraValue = "extraValue";
