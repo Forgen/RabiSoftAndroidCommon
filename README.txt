@@ -8,5 +8,9 @@ Library for
  Boot Completed Manager Ad ( https://play.google.com/store/apps/details?id=RabiSoft.BootCompletedManagerAd )
  and
  Service Manager Pro Ad ( https://play.google.com/store/apps/details?id=com.rabisoft.android.ServiceManagerProAd )
+ and
+ Mic Notifier ( https://play.google.com/store/apps/details?id=RabiSoft.MicNotifier )
+ and
+ Mic Notifier Pro Ad ( https://play.google.com/store/apps/details?id=RabiSoft.MicNotifierProAd )
 
 twitter id : rabisoft
