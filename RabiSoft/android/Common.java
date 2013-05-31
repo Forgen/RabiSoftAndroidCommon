@@ -23,6 +23,12 @@ public class Common {
 
 	public static final String m_keyExtra_Package = "package";
 
+	public static final String m_actionPickLocation = "RabiSoft.intent.action.PICK_LOCATION";
+
+	public static final String m_keyExtra_Latitude = "latitude";
+	public static final String m_keyExtra_Longitude = "longitude";
+	public static final String m_keyExtra_Altitude = "altitude";
+
 	public static enum SensorSleep {
 		sleep, wake
 	}
