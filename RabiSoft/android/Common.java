@@ -64,6 +64,23 @@ public class Common {
 
 	public static String getLocationProvider(Context context) {
 
+		String provider = getCurrentLocationProvider(context);
+
+		if (provider == null) {
+			LocationManager manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+			if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				provider = LocationManager.GPS_PROVIDER;
+			} else if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				provider = LocationManager.NETWORK_PROVIDER;
+			}
+		}
+
+		return provider;
+
+	}
+
+	public static String getCurrentLocationProvider(Context context) {
+
 		String provider = null;
 
 		{
@@ -79,19 +96,10 @@ public class Common {
 			}
 		}
 
-		if (provider == null) {
-			LocationManager manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-			if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				provider = LocationManager.GPS_PROVIDER;
-			} else if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				provider = LocationManager.NETWORK_PROVIDER;
-			}
-		}
-
 		return provider;
-
+		
 	}
-
+	
 	public static SensorSleep getSensorSleep(Context context) {
 
 		SensorSleep sleep = SensorSleep.wake;
